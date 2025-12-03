@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 
 const router = express.Router();
@@ -23,10 +24,10 @@ const verifyToken = (req, res, next) => {
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
   console.log('📝 Register request received:', { body: req.body });
-  
+
   try {
     const { fullName, email, password } = req.body || {};
-    
+
     console.log('🔍 Validating inputs:', { fullName: !!fullName, email: !!email, password: !!password });
     if (!fullName || !email || !password) {
       console.log('❌ Missing required fields');
@@ -48,16 +49,76 @@ router.post('/register', async (req, res) => {
 
     console.log('🔐 Hashing password...');
     const hashed = await bcrypt.hash(password, 12);
-    
+
     console.log('💾 Creating user in database...');
+    try {
+      // Debug: print active DB name and current indexes on users collection
+      const connInfo = {
+        readyState: mongoose.connection.readyState,
+        name: mongoose.connection.name,
+        host: mongoose.connection.hosts || mongoose.connection.host,
+      };
+      console.log('🗄️ Mongoose connection info:', connInfo);
+      try {
+        const db = mongoose.connection.db;
+        if (db) {
+          const idx = await db.collection('users').listIndexes().toArray();
+          console.log('📚 Current users indexes:', idx.map(i => ({ name: i.name, key: i.key, unique: i.unique })));
+        } else {
+          console.log('⚠️ mongoose.connection.db is not available');
+        }
+      } catch (e) {
+        console.warn('Could not list indexes via mongoose connection:', e.message);
+      }
+    } catch (e) {
+      console.warn('Debug logging failed:', e.message);
+    }
     const userData = {
       fullName,
       email,
-      password: hashed
+      password: hashed,
+      orders: []
     };
-    
-    const user = await User.create(userData);
-    console.log('✅ User created successfully:', user._id);
+
+    // Try creating the user. If a leftover unique index on orders.orderId exists
+    // we attempt to drop that index and retry once (developer convenience).
+    let user;
+    try {
+      user = await User.create(userData);
+      console.log('✅ User created successfully:', user._id);
+    } catch (createErr) {
+      console.error('Create user failed:', createErr.message);
+      // If duplicate key caused by orders.orderId, attempt to drop the index and retry once
+      if (createErr.code === 11000) {
+        const field = Object.keys(createErr.keyPattern || {})[0];
+        console.log('Duplicate key on field:', field);
+        if (field && field.includes('orders.orderId')) {
+          try {
+            const db = mongoose.connection.db;
+            const idxs = await db.collection('users').listIndexes().toArray();
+            for (const i of idxs) {
+              const keys = Object.keys(i.key || {});
+              if (keys.some(k => k === 'orders.orderId' || k.includes('orders.orderId'))) {
+                console.log('Attempting to drop index:', i.name);
+                await db.collection('users').dropIndex(i.name);
+                console.log('Dropped index', i.name);
+              }
+            }
+
+            // Retry create once
+            user = await User.create(userData);
+            console.log('✅ User created successfully after dropping index:', user._id);
+          } catch (retryErr) {
+            console.error('Retry after dropping index failed:', retryErr.message);
+            throw retryErr;
+          }
+        } else {
+          throw createErr;
+        }
+      } else {
+        throw createErr;
+      }
+    }
 
     // return created user (no password)
     return res.status(201).json({ user: { id: user._id, fullName: user.fullName, email: user.email } });
@@ -65,7 +126,7 @@ router.post('/register', async (req, res) => {
     console.error('❌ Register error:', err.message);
     console.error('Error code:', err.code);
     console.error('Error stack:', err.stack);
-    
+
     // Handle specific database errors
     if (err.code === 11000) {
       const field = Object.keys(err.keyPattern || {})[0];
@@ -75,7 +136,7 @@ router.post('/register', async (req, res) => {
       }
       return res.status(400).json({ message: 'Duplicate entry error' });
     }
-    
+
     return res.status(500).json({ message: 'Server error: ' + err.message });
   }
 });

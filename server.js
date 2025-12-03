@@ -35,6 +35,7 @@ app.get('/register', (req, res) => {
 app.get('/dashboard', (req, res) => {
     res.sendFile('dashboard.html', { root: './src' });
 });
+
 app.get('/about', (req, res) => {
     res.sendFile('about.html', { root: './src' });
 });
@@ -48,6 +49,11 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ewaste';
 mongoose.connect(mongoUri, { autoIndex: true })
     .then(() => {
         console.log('Connected to MongoDB');
+        try {
+            console.log('MongoDB connection details:', { dbName: mongoose.connection.name, hosts: mongoose.connection.hosts || mongoose.connection.host, uri: process.env.MONGODB_URI || mongoUri });
+        } catch (e) {
+            console.log('Could not read mongoose connection details:', e.message);
+        }
         app.listen(port, () => {
             console.log(`Server listening at http://localhost:${port}`);
         });
