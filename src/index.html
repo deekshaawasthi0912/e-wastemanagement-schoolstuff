@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Landing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/data.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-main min-h-screen text-white relative">
+    <!-- Navigation -->
+    <nav class="relative z-50 px-6 py-6 md:px-12 flex flex-col md:flex-row items-center justify-between">
+        <!-- Logo -->
+        <a href="#"
+            class="w-8 h-8 bg-white text-purple-700 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-lg">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <div class="text-2xl font-bold tracking-wider mb-4 md:mb-0 logo-anim">LOGO</div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-1/3 max-w-md mx-auto mb-4 md:mb-0 search-anim">
+            <input type="text"
+                class="w-full bg-white text-gray-800 rounded-full py-2 px-10 focus:outline-none shadow-lg"
+                placeholder="">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        </div>
+
+        <div class="nav-link flex space-x-6 text-sm font-medium nav-links-anim">
+            <span onclick="loadPage('/')">HOME</span>
+            <span onclick="loadPage('/login')">LOGIN</span>
+            <span onclick="loadPage('/register')">REGISTER</span>
+            <span onclick="loadPage('/Dashboard')">DASHBOARD</span>
+            <span onclick="loadPage('/about')">ABOUT US</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main
+        class="relative z-10 container mx-auto px-6 md:px-12 flex flex-col-reverse md:flex-row items-center justify-between mt-8 md:mt-16 h-full pb-20">
+        <!-- Background Decorative Elements (SVG) -->
+        <div class="svg-img absolute bottom-0 left-0 w-full h-full overflow-hidden -z-0 pointer-events-none">
+            <svg viewBox="0 0 1440 800" class="absolute bottom-0 w-full h-auto" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="gradYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#c5817f;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#858f51;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:rgb(189, 133, 95);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#915924;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Right Yellow/Pink Blob -->
+                <path class="shape-yellow opacity-90" d="M1440,800 L1440,400 C1300,550 1100,750 900,800 Z"></path>
+
+                <!-- Left Blue Blob -->
+                <path class="shape-blue opacity-90" d="M0,800 L0,600 C200,650 400,750 800,800 Z"></path>
+
+                <!-- Dashed Path -->
+                <path class="dashed-path" d="M0,800 C300,780 500,650 800,750 S1200,800 1440,800" fill="none"
+                    stroke="white" stroke-width="2" opacity="0.4" />
+            </svg>
+        </div>
+        <!-- Text Content -->
+        <div class="w-full md:w-1/2 text-center md:text-left mt-12 md:mt-0 pr-0 md:pr-10">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-2 hero-text-anim">
+                WASTE <br> WISE
+            </h1>
+            <h2 class="text-xl md:text-2xl font-medium text-black-300 mb-6 hero-text-anim">
+                Waste management
+            </h2>
+            <p class="text-black
+            -300 text-sm md:text-base leading-relaxed mb-8 max-w-lg mx-auto md:mx-0 hero-text-anim">
+                Services typically include the collection, transportation, sorting, and processing of various waste
+                types—such as municipal, industrial, or hazardous materials—through methods like recycling, composting,
+                and waste-to-energy conversion.
+            </p>
+            <button class="btn-gradient text-white font-bold py-3 px-8 rounded-full shadow-lg hero-btn-anim">
+                READ MORE
+            </button>
+        </div>
+
+        <!-- Image Composition -->
+        <div class="w-full md:w-1/2 relative flex justify-center md:justify-end image-container-anim">
+            <div class="relative w-72 h-72 md:w-[450px] md:h-[450px]">
+
+                <!-- Decorative Elements Behind -->
+                <!-- Striped Decoration (Top Right) -->
+                <div class="absolute -top-4 -right-4 w-full h-full rounded-full border border-white/20 z-0"></div>
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 md:w-48 md:h-48 rounded-tr-full striped-circle z-0 transform translate-x-4 -translate-y-4">
+                </div>
+
+                <!-- Main Circle Image -->
+                <div
+                    class="absolute inset-0 rounded-full border-4 border-white overflow-hidden shadow-2xl z-10 main-image">
+                    <!-- Placeholder image matching the vibe (woman working) -->
+                    <img src="data:image/jpeg;base64,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"
+                        alt="e waste management logo" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+    </main>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="fixed bottom-6 right-6 z-50 flex space-x-4 social-anim">
+        <a href="#"
+            class="w-8 h-8 bg-white text-purple-700 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-lg">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#"
+            class="w-8 h-8 bg-white text-purple-700 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-lg">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#"
+            class="w-8 h-8 bg-white text-purple-700 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-lg">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+
+   
+    <script src="../js/script.js"></script>
+    </script>
+
+
+  <!-- HEADER -->
+  <header class="header" style="    margin-top: 92px; color: black;">
+    <h1>Data Analytics Dashboard</h1>
+    <p>Insights that drive a cleaner and smarter future.</p>
+  </header>
+
+  <!-- FILTERS -->
+  <section class="filters">
+    <h2>Filters</h2>
+    <div class="filter-box">
+      <select id="regionFilter">
+        <option value="all">All Regions</option>
+        <option value="north">North</option>
+        <option value="south">South</option>
+        <option value="east">East</option>
+        <option value="west">West</option>
+      </select>
+
+      <select id="wasteTypeFilter">
+        <option value="all">All Waste Types</option>
+        <option value="plastic">Plastic</option>
+        <option value="organic">Organic</option>
+        <option value="metal">Metal</option>
+        <option value="e-waste">E-waste</option>
+      </select>
+
+      <button onclick="applyFilters()">Apply</button>
+    </div>
+  </section>
+
+  <!-- COUNTERS -->
+  <section class="counters">
+    <div class="counter-box">
+      <h3>Total Customers</h3>
+      <p class="counter" data-target="45300">0</p>
+    </div>
+
+    <div class="counter-box">
+      <h3>Total Branches</h3>
+      <p class="counter" data-target="22">0</p>
+    </div>
+
+    <div class="counter-box">
+      <h3>Most Preferred Branch</h3>
+      <p id="preferredBranch">Loading...
+    <BR> EAST
+      </p>
+    </div>
+  </section>
+
+  <!-- SMALL PIE CHART -->
+  <section class="charts-section">
+    <h2>Branch Distribution</h2>
+
+    <!-- Reduced from 300×300 to 180×180 -->
+    <canvas id="pieChart" width="800" height="800"></canvas>
+  </section>
+  
+
+  <!-- FLOWCHART -->
+  <section class="flowchart">
+    <h2>Branch Workflow</h2>
+
+    <div class="flow-container">
+      <div class="flow-box">Waste Collection</div>
+      <div class="arrow">⬇</div>
+      <div class="flow-box">Sorting Facility</div>
+      <div class="arrow">⬇</div>
+      <div class="flow-box">Recycling / Upcycling</div>
+      <div class="arrow">⬇</div>
+      <div class="flow-box">Resource Conversion</div>
+      <div class="arrow">⬇</div>
+      <div class="flow-box">Distribution / Reuse</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Waste Management Co.</p>
+  </footer>
+
+  <script src="../js/data.js"></script>
+</body>
+
+</html>
+

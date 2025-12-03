@@ -1,0 +1,22 @@
+{
+  "name": "new-main",
+  "version": "1.0.0",
+  "description": "e waste management app by Atharv and Deeksha for school work",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.0.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "dotenv": "^16.1.4",
+    "nodemon": "^3.1.11"
+  },
+  "scripts": {
+    "test": "nodemon",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
